@@ -59,19 +59,24 @@
                                     {{api.name}}
                                 </li>
                             </ul>
-        
+
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="language_change" role="button"
                                 data-bs-toggle="dropdown" aria-expanded="false">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><path fill="currentColor" d="m12.87 15.07l-2.54-2.51l.03-.03A17.52 17.52 0 0 0 14.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35C8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5l3.11 3.11l.76-2.04M18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12m-2.62 7l1.62-4.33L19.12 17h-3.24Z"/></svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
+                                    preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24">
+                                    <path fill="currentColor"
+                                        d="m12.87 15.07l-2.54-2.51l.03-.03A17.52 17.52 0 0 0 14.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35C8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5l3.11 3.11l.76-2.04M18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12m-2.62 7l1.62-4.33L19.12 17h-3.24Z" />
+                                </svg>
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="language_change">
-                                <li v-for="language in languages" class="dropdown-item"  @click="change_language(language)">
+                                <li v-for="language in languages" class="dropdown-item"
+                                    @click="change_language(language)">
                                     {{language.name}}
                                 </li>
                             </ul>
-        
+
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="https://github.com/zhelper-org/search-page"><svg
@@ -79,6 +84,14 @@
                                     preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24">
                                     <path fill="currentColor"
                                         d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5c.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34c-.46-1.16-1.11-1.47-1.11-1.47c-.91-.62.07-.6.07-.6c1 .07 1.53 1.03 1.53 1.03c.87 1.52 2.34 1.07 2.91.83c.09-.65.35-1.09.63-1.34c-2.22-.25-4.55-1.11-4.55-4.92c0-1.11.38-2 1.03-2.71c-.1-.25-.45-1.29.1-2.64c0 0 .84-.27 2.75 1.02c.79-.22 1.65-.33 2.5-.33c.85 0 1.71.11 2.5.33c1.91-1.29 2.75-1.02 2.75-1.02c.55 1.35.2 2.39.1 2.64c.65.71 1.03 1.6 1.03 2.71c0 3.82-2.34 4.66-4.57 4.91c.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2Z" />
+                                </svg></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="https://t.me/zhelpertg"><svg
+                                    xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
+                                    preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24">
+                                    <path fill="currentColor"
+                                        d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10s10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19c-.14.75-.42 1-.68 1.03c-.58.05-1.02-.38-1.58-.75c-.88-.58-1.38-.94-2.23-1.5c-.99-.65-.35-1.01.22-1.59c.15-.15 2.71-2.48 2.76-2.69a.2.2 0 0 0-.05-.18c-.06-.05-.14-.03-.21-.02c-.09.02-1.49.95-4.22 2.79c-.4.27-.76.41-1.08.4c-.36-.01-1.04-.2-1.55-.37c-.63-.2-1.12-.31-1.08-.66c.02-.18.27-.36.74-.55c2.92-1.27 4.86-2.11 5.83-2.51c2.78-1.16 3.35-1.36 3.73-1.36c.08 0 .27.02.39.12c.1.08.13.19.14.27c-.01.06.01.24 0 .38z" />
                                 </svg></a>
                         </li>
                     </ul>
@@ -198,7 +211,8 @@
                 </div>
             </div>
         </div>
-        <div class="modal fade" id="downloadModal" tabindex="-1" aria-labelledby="downloadModalLabel" aria-hidden="true">
+        <div class="modal fade" id="downloadModal" tabindex="-1" aria-labelledby="downloadModalLabel"
+            aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-lg ">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -212,7 +226,8 @@
 
                         <p></p>
                         <div class="modal-footer">
-                            <a v-for="download_link in detail.download_link" :href="download_link.url" class="btn btn-secondary" target="_blank">
+                            <a v-for="download_link in detail.download_link" :href="download_link.url"
+                                class="btn btn-secondary" target="_blank">
                                 {{ download_link.name }}
                             </a>
                             <!-- 可能需要 eval 一下，解释两次
@@ -264,28 +279,29 @@
             data() {
                 return {
                     inprogress: false,
-                    languages:[
-                    {name:"中文",id:"zh",setting: {
-                        changeapi: '切换API',
-                        home: '返回首页',
-                        doc: '查看文档',
-                        title: '书名',
-                        author: '作者',
-                        publisher: '出版社',
-                        year: '出版时间',
-                        filesize: '文件大小',
-                        extension: '文件类型',
-                        source: '书源',
-                        info: '信息',
-                        noapi: '无可用API',
-                        apinotset: '未指定API',
-                        direct_url: '直达链接',
-                        download_links: '下载链接',
-                        detail:"详细结果",
-                        next_page:"下一页",
-                        previous_page:"前一页",
-                        search:'搜索',
-                        notice:'            <h1>使用须知</h1>\
+                    languages: [
+                        {
+                            name: "中文", id: "zh", setting: {
+                                changeapi: '切换API',
+                                home: '返回首页',
+                                doc: '查看文档',
+                                title: '书名',
+                                author: '作者',
+                                publisher: '出版社',
+                                year: '出版时间',
+                                filesize: '文件大小',
+                                extension: '文件类型',
+                                source: '书源',
+                                info: '信息',
+                                noapi: '无可用API',
+                                apinotset: '未指定API',
+                                direct_url: '直达链接',
+                                download_links: '下载链接',
+                                detail: "详细结果",
+                                next_page: "下一页",
+                                previous_page: "前一页",
+                                search: '搜索',
+                                notice: '            <h1>使用须知</h1>\
                         <ul>\
                             <li>本网页本身不具备任何搜索或者下载功能，需要搭配合适的查询接口进行使用 <b>直接访问将显示无可用API</b></li>\
                             <li>点击搜索后，本网页将向查询接口发送查询信息，接口返回结果需要一定时间，请耐心等待，不要重复查询</li>\
@@ -293,34 +309,37 @@
                             <li>通过更改查询接口，可以实现不同内容的混合查询。<b>切换接口按钮：电脑版在左上角，手机版先按右上角展开、再点击</b></li>\
                             <li>本网页已经开源</li>\
                         </ul>'
-                    }},
-                    {name:"English",id:'en', setting:{
-                        changeapi: 'Change API',
-                        home: 'Home',
-                        doc: 'Docs',
-                        title: 'Title',
-                        author: 'Author',
-                        publisher: 'Publisher',
-                        year: 'Year',
-                        filesize: 'Filesize',
-                        extension: 'Extension',
-                        source: 'Source',
-                        info: 'Infomation',
-                        noapi: 'No Avaliable API',
-                        apinotset: 'API Not Set',
-                        direct_url: 'Direct Link',
-                        download_links: 'Download Links',
-                        detail:'Detail Infomation',
-                        next_page:"Next Page",
-                        previous_page:"Previous Page",
-                        search:'search',
-                        notice:'            <h1>Notice</h1>\
+                            }
+                        },
+                        {
+                            name: "English", id: 'en', setting: {
+                                changeapi: 'Change API',
+                                home: 'Home',
+                                doc: 'Docs',
+                                title: 'Title',
+                                author: 'Author',
+                                publisher: 'Publisher',
+                                year: 'Year',
+                                filesize: 'Filesize',
+                                extension: 'Extension',
+                                source: 'Source',
+                                info: 'Infomation',
+                                noapi: 'No Avaliable API',
+                                apinotset: 'API Not Set',
+                                direct_url: 'Direct Link',
+                                download_links: 'Download Links',
+                                detail: 'Detail Infomation',
+                                next_page: "Next Page",
+                                previous_page: "Previous Page",
+                                search: 'search',
+                                notice: '            <h1>Notice</h1>\
                         <ul>\
                             <li>This Website dont storage API, <b>You need provice API by yourself</b></li>\
                             <li>When you Click Search, We will make requests to API endpoint, be patient</li>\
                             <li>This website is opensource</li>\
                         </ul>'
-                    }},
+                            }
+                        },
 
                     ],
                     language: {},
@@ -350,7 +369,7 @@
                         }
                         else {
                             this.search_result = response.data.data
-                            if(response.data.data.length == 0){
+                            if (response.data.data.length == 0) {
                                 alert('无相关结果')
                             }
                             this.hits = response.data.hits
@@ -421,7 +440,7 @@
                         return (filesize / Math.pow(1024, 2)).toFixed(2).toString() + 'MB'
                     }
                 },
-                change_language(lan){
+                change_language(lan) {
                     this.language = lan.setting
                 }
             },
