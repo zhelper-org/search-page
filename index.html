@@ -59,6 +59,19 @@
                                     {{api.name}}
                                 </li>
                             </ul>
+        
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="language_change" role="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><path fill="currentColor" d="m12.87 15.07l-2.54-2.51l.03-.03A17.52 17.52 0 0 0 14.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35C8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5l3.11 3.11l.76-2.04M18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12m-2.62 7l1.62-4.33L19.12 17h-3.24Z"/></svg>
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="language_change">
+                                <li v-for="language in languages" class="dropdown-item"  @click="change_language(language)">
+                                    {{language.name}}
+                                </li>
+                            </ul>
+        
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="https://github.com/zhelper-org/search-page"><svg
@@ -75,7 +88,7 @@
         <div class="d-grid gap-2 d-flex justify-content-center">
             <div class="input-group">
                 <input type="text" class="form-control" placeholder="" @keyup.enter="search" v-model="keyword">
-                <button class="btn btn-primary" @click="search">搜索</button>
+                <button class="btn btn-primary" @click="search">{{language.search}}</button>
             </div>
         </div>
         <div class="my-5 mx-auto">
@@ -106,30 +119,23 @@
             <ul class="pagination justify-content-center">
 
                 <li v-if="page-1" class="page-item">
-                    <a class="page-link" href="#" @click="change_page(-1)">前一页</a>
+                    <a class="page-link" href="#" @click="change_page(-1)">{{language.previous_page}}</a>
                 </li>
                 <li class="page-item"><a class="page-link" href="#">{{page}}</a></li>
                 <li v-if="page!= total_page" class="page-item">
-                    <a class="page-link" href="#" @click="change_page(1)">后一页</a>
+                    <a class="page-link" href="#" @click="change_page(1)">{{language.next_page}}</a>
                 </li>
             </ul>
         </nav>
 
-        <div v-if="is_homepage && !search_result.length">
-            <h1>使用须知</h1>
-            <ul>
-                <li>本网页本身不具备任何搜索或者下载功能，需要搭配合适的查询接口进行使用 <b>直接访问将显示无可用API</b></li>
-                <li>点击搜索后，本网页将向查询接口发送查询信息，接口返回结果需要一定时间，请耐心等待，不要重复查询</li>
-                <li>本网页所显示的查询结果完全取决于接口所返回的内容。请不要使用来历不明的接口，我们不对接口内容负责</li>
-                <li>通过更改查询接口，可以实现不同内容的混合查询。<b>切换接口按钮：电脑版在左上角，手机版先按右上角展开、再点击</b></li>
-                <li>本网页已经开源</li>
-            </ul>
+        <div v-if="is_homepage && !search_result.length" v-html="language.notice">
+
         </div>
         <div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-lg ">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">详细结果</h5>
+                        <h5 class="modal-title">{{language.detail}}</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 
                     </div>
@@ -196,7 +202,7 @@
             <div class="modal-dialog modal-dialog-centered modal-lg ">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">下载链接</h5>
+                        <h5 class="modal-title">{{language.download_links}}</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 
                     </div>
@@ -258,7 +264,8 @@
             data() {
                 return {
                     inprogress: false,
-                    language: {
+                    languages:[
+                    {name:"中文",id:"zh",setting: {
                         changeapi: '切换API',
                         home: '返回首页',
                         doc: '查看文档',
@@ -273,8 +280,50 @@
                         noapi: '无可用API',
                         apinotset: '未指定API',
                         direct_url: '直达链接',
-                        download_links: '下载链接'
-                    },
+                        download_links: '下载链接',
+                        detail:"详细结果",
+                        next_page:"下一页",
+                        previous_page:"前一页",
+                        search:'搜索',
+                        notice:'            <h1>使用须知</h1>\
+                        <ul>\
+                            <li>本网页本身不具备任何搜索或者下载功能，需要搭配合适的查询接口进行使用 <b>直接访问将显示无可用API</b></li>\
+                            <li>点击搜索后，本网页将向查询接口发送查询信息，接口返回结果需要一定时间，请耐心等待，不要重复查询</li>\
+                            <li>本网页所显示的查询结果完全取决于接口所返回的内容。请不要使用来历不明的接口，我们不对接口内容负责</li>\
+                            <li>通过更改查询接口，可以实现不同内容的混合查询。<b>切换接口按钮：电脑版在左上角，手机版先按右上角展开、再点击</b></li>\
+                            <li>本网页已经开源</li>\
+                        </ul>'
+                    }},
+                    {name:"English",id:'en', setting:{
+                        changeapi: 'Change API',
+                        home: 'Home',
+                        doc: 'Docs',
+                        title: 'Title',
+                        author: 'Author',
+                        publisher: 'Publisher',
+                        year: 'Year',
+                        filesize: 'Filesize',
+                        extension: 'Extension',
+                        source: 'Source',
+                        info: 'Infomation',
+                        noapi: 'No Avaliable API',
+                        apinotset: 'API Not Set',
+                        direct_url: 'Direct Link',
+                        download_links: 'Download Links',
+                        detail:'Detail Infomation',
+                        next_page:"Next Page",
+                        previous_page:"Previous Page",
+                        search:'search',
+                        notice:'            <h1>Notice</h1>\
+                        <ul>\
+                            <li>This Website dont storage API, <b>You need provice API by yourself</b></li>\
+                            <li>When you Click Search, We will make requests to API endpoint, be patient</li>\
+                            <li>This website is opensource</li>\
+                        </ul>'
+                    }},
+
+                    ],
+                    language: {},
                     api: {},
                     apis: [],
                     search_result: [],
@@ -371,6 +420,9 @@
                     } else if (filesize <= Math.pow(1024, 3)) {
                         return (filesize / Math.pow(1024, 2)).toFixed(2).toString() + 'MB'
                     }
+                },
+                change_language(lan){
+                    this.language = lan.setting
                 }
             },
             computed: {
@@ -385,8 +437,10 @@
                 },
             },
             mounted: function () {
+                this.language = this.languages[0].setting
                 this.apis = JSON.parse(decodeURI(location.search.slice(1)));
                 this.api = this.apis[0]
+
             }
         })
         app.mount('#app')
