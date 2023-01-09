@@ -467,7 +467,10 @@
                 this.language = this.languages[0].setting
                 this.apis = JSON.parse(decodeURI(location.search.slice(1)));
                 this.api = this.apis[0]
-
+                if(location.hash.slice(1)){
+                    this.keyword = location.hash.slice(1);
+                    this.search()
+                }
             }
         })
         app.mount('#app')
