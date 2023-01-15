@@ -194,8 +194,8 @@
                                     target="_blank">
                                     秒传
                                 </a>
-                                <a v-if="detail.zlib_download" class="btn btn-secondary"
-                                    :href="'https://zlib.download/download/'+detail.id" target="_blank">
+                                <a v-if="detail.download" class="btn btn-secondary"
+                                    :href="detail.download+detail.id" target="_blank">
                                     zlib.download
                                 </a>
                             </template>
