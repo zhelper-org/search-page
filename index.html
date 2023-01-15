@@ -195,8 +195,8 @@
                                     秒传
                                 </a>
                                 <a v-if="detail.download" class="btn btn-secondary"
-                                    :href="detail.download+detail.id" target="_blank">
-                                    zlib.download
+                                    :href="api.download+detail.id" target="_blank">
+                                    下载
                                 </a>
                             </template>
                             <template v-if="api.type == 'light'">
