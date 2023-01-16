@@ -26,6 +26,9 @@
         type="application/javascript"></script>
     <script src="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/vue/3.2.31/vue.global.min.js"
         type="application/javascript"></script>
+    <script src="https://browser.sentry-cdn.com/5.29.0/vue.min.js"
+        integrity="sha384-FKagncFah3a9nkKNEIDQqXhYnny5Wzc37/AZV5eKKnRVS8uPpeFPdu9dnrvAnRpF"
+        crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -194,8 +197,8 @@
                                     target="_blank">
                                     秒传
                                 </a>
-                                <a v-if="api.download" class="btn btn-secondary"
-                                    :href="api.download+detail.id" target="_blank">
+                                <a v-if="api.download" class="btn btn-secondary" :href="api.download+detail.id"
+                                    target="_blank">
                                     下载
                                 </a>
                             </template>
@@ -467,13 +470,18 @@
                 this.language = this.languages[0].setting
                 this.apis = JSON.parse(decodeURI(location.search.slice(1)));
                 this.api = this.apis[0]
-                if(location.hash.slice(1)){
+                if (location.hash.slice(1)) {
                     this.keyword = decodeURI(location.hash.slice(1));
                     this.search()
                 }
             }
         })
         app.mount('#app')
+
+            Sentry.init({
+                Vue,
+                dsn: "https://6f4cfc1a19be46efbdb2e412e307339e@o4504512193101824.ingest.sentry.io/4504512392265728",
+            });	
 
     </script>
 
