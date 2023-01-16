@@ -26,8 +26,8 @@
         type="application/javascript"></script>
     <script src="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/vue/3.2.31/vue.global.min.js"
         type="application/javascript"></script>
-    <script src="https://browser.sentry-cdn.com/5.29.0/vue.min.js"
-        integrity="sha384-FKagncFah3a9nkKNEIDQqXhYnny5Wzc37/AZV5eKKnRVS8uPpeFPdu9dnrvAnRpF"
+    <script src="https://browser.sentry-cdn.com/7.30.0/bundle.min.js"
+        integrity="sha384-VQwsnOdfvWE66XJzcf9t3H9l6Xm8zEihxxYmvp0iItrYIjy9HZXkagbY+3aA33kl"
         crossorigin="anonymous"></script>
 </head>
 
@@ -296,7 +296,7 @@
         const app = Vue.createApp({
             data() {
                 return {
-                    apis_json:'',
+                    apis_json: '',
                     inprogress: false,
                     languages: [
                         {
@@ -487,9 +487,7 @@
             }
         })
         app.mount('#app')
-
         Sentry.init({
-            Vue,
             dsn: "https://6f4cfc1a19be46efbdb2e412e307339e@o4504512193101824.ingest.sentry.io/4504512392265728",
         });
 
