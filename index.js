@@ -153,6 +153,13 @@ const app = Vue.createApp({
         axios.get('./i18n.json').then(response => {
             this.languages = response.data
             this.apis_json = location.search
+            try {
+                this.apis = JSON.parse(decodeURI(location.search.slice(1)));
+                this.api = this.apis[0]
+            }
+            catch(err) {
+                this.apis = []
+            }
             this.apis = JSON.parse(decodeURI(location.search.slice(1)));
             this.api = this.apis[0]
             this.current_language = (navigator.language || navigator.browserLanguage).toLowerCase()
