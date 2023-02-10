@@ -173,8 +173,7 @@
                     <div class="modal-body">
 
                         <template v-if=" api.type == 'full'">
-                            {{language.title}}：{{detail.title}}，
-                            {{language.source}}：{{detail.source}}
+                            {{language.title}}：{{detail.title}}，{{language.source}}：{{detail.source}}
                             <br>
                             {{language.author}}：{{detail.author}}，{{language.publisher}}：{{detail.publisher}}，{{language.year}}：{{detail.year}}
                             <br>
@@ -190,6 +189,7 @@
 
                         <p></p>
                         <div class="modal-footer">
+                            
                             <template v-if="api.type == 'full'">
                                 <a v-if="detail.in_libgen" class="btn btn-secondary"
                                     :href="'http://libgendown.1kbtool.com/'+detail.md5" target="_blank">
@@ -260,7 +260,7 @@
         </div>
         <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
             <div class="col-md-4 d-flex text-center" style="margin-left: 4px">
-                <span class="mb-3 mb-md-0 text-muted  text-center">© 2022 Zhelper Team</span>
+                <span class="mb-3 mb-md-0 text-muted  text-center">© 2023 zhelper team</span>
             </div>
         </footer>
 
@@ -273,225 +273,7 @@
         (adsbygoogle = window.adsbygoogle || []).push({});
     </script>
 
-    <script>
-
-        function getCookie(name) {
-            // 拆分 cookie 字符串
-            var cookieArr = document.cookie.split(";");
-
-            // 循环遍历数组元素
-            for (var i = 0; i < cookieArr.length; i++) {
-                var cookiePair = cookieArr[i].split("=");
-
-                /* 删除 cookie 名称开头的空白并将其与给定字符串进行比较 */
-                if (name == cookiePair[0].trim()) {
-                    // 解码cookie值并返回
-                    return decodeURIComponent(cookiePair[1]);
-                }
-            }
-            // 如果未找到，则返回null
-            return null;
-        }
-
-        const app = Vue.createApp({
-            data() {
-                return {
-                    apis_json: '',
-                    inprogress: false,
-                    languages: [
-                        {
-                            name: "中文", id: "zh", setting: {
-                                changeapi: '切换API',
-                                home: '返回首页',
-                                doc: '查看文档',
-                                title: '书名',
-                                author: '作者',
-                                publisher: '出版社',
-                                year: '出版时间',
-                                filesize: '文件大小',
-                                extension: '文件类型',
-                                source: '书源',
-                                info: '信息',
-                                noapi: '无可用API',
-                                apinotset: '未指定API',
-                                direct_url: '直达链接',
-                                download_links: '下载链接',
-                                detail: "详细结果",
-                                next_page: "下一页",
-                                previous_page: "前一页",
-                                search: '搜索',
-                                notice: '            <h1>使用须知</h1>\
-                        <ul>\
-                            <li>本网页本身不具备任何搜索或者下载功能，需要搭配合适的查询接口进行使用 <b>直接访问将显示无可用API</b></li>\
-                            <li>点击搜索后，本网页将向查询接口发送查询信息，接口返回结果需要一定时间，请耐心等待，不要重复查询</li>\
-                            <li>本网页所显示的查询结果完全取决于接口所返回的内容。请不要使用来历不明的接口，我们不对接口内容负责</li>\
-                            <li>通过更改查询接口，可以实现不同内容的混合查询。<b>切换接口按钮：电脑版在左上角，手机版先按右上角展开、再点击</b></li>\
-                            <li>本网页已经开源</li>\
-                        </ul>'
-                            }
-                        },
-                        {
-                            name: "English", id: 'en', setting: {
-                                changeapi: 'Change API',
-                                home: 'Home',
-                                doc: 'Docs',
-                                title: 'Title',
-                                author: 'Author',
-                                publisher: 'Publisher',
-                                year: 'Year',
-                                filesize: 'Filesize',
-                                extension: 'Extension',
-                                source: 'Source',
-                                info: 'Infomation',
-                                noapi: 'No Avaliable API',
-                                apinotset: 'API Not Set',
-                                direct_url: 'Direct Link',
-                                download_links: 'Download Links',
-                                detail: 'Detail Infomation',
-                                next_page: "Next Page",
-                                previous_page: "Previous Page",
-                                search: 'search',
-                                notice: '            <h1>Notice</h1>\
-                        <ul>\
-                            <li>This Website dont storage API, <b>You need provide API by yourself</b></li>\
-                            <li>When you Click Search, We will make requests to API endpoint, be patient</li>\
-                            <li>This website is opensource</li>\
-                            <li>You can change API by click upper left corner</li>\
-                        </ul>'
-                            }
-                        },
-
-                    ],
-                    language: {},
-                    api: {},
-                    apis: [],
-                    search_result: [],
-                    detail: {},
-                    keyword: '',
-                    hits: 0,
-                    page: 1,
-                }
-            },
-            methods: {
-                changeapi(api) {
-                    this.api = api
-                },
-                search() {
-                    this.page = 1;
-                    this.inprogress = true;
-                    axios.post(this.api.url + '/api/search/', {
-                        keyword: this.keyword,
-                        page: this.page,
-                        sensitive: this.api.sensitive,
-                    }).then(response => {
-                        if (response.data.errorn) {
-                            alert(response.data.msg)
-                        }
-                        else {
-                            this.search_result = response.data.data
-                            if (response.data.data.length == 0) {
-                                alert('无相关结果')
-                            }
-                            this.hits = response.data.hits
-                        }
-                    }).catch(error => {
-                        if (error.toJSON().status == 429) {
-                            alert('请求过于频繁，请稍等一下再次尝试(429)')
-                        }
-                        else {
-                            alert(`未知错误，请打开控制台查看(${error.message})`)
-                        }
-                    })
-                    this.inprogress = false;
-                },
-                change_page(change) {
-                    this.page += change
-                    axios.post(this.api.url + '/api/search/', {
-                        keyword: this.keyword,
-                        page: this.page,
-                        sensitive: this.api.sensitive,
-                    }).then(response => {
-                        this.search_result = response.data.data
-                    }).catch(error => {
-                        if (error.toJSON().status == 429) {
-                            alert('请求过于频繁，请稍等一下再次尝试(429)')
-                        }
-                        else {
-                            alert(`未知错误，请打开控制台查看(${error.message})`)
-                        }
-                    })
-                },
-                get_detail(item) {
-                    if (this.api.detail) {
-                        axios.post(this.api.url + '/api/detail/', {
-                            id: item.id,
-                            source: item.source
-                        }).then(response => {
-                            if (response.data.errorn) {
-                                alert(response.data.msg)
-                            }
-                            else {
-                                this.detail = response.data
-                            }
-
-                        }).catch(error => {
-                            if (error.toJSON().status == 429) {
-                                alert('请求过于频繁，请稍等一下再次尝试(429)')
-                            }
-                            else {
-                                alert(`未知错误，请打开控制台查看(${error.message})`)
-                            }
-                        })
-                    }
-                    else {
-                        this.detail = item;
-                    }
-                    var myModal = new bootstrap.Modal(document.getElementById('detailModal'), {})
-                    myModal.toggle()
-                },
-                filesizeToString(filesize) {
-                    if (filesize > 0 && filesize < 1) {
-                        return (filesize * 8).toFixed(2).toString() + 'b'
-                    } else if (filesize <= 1024) {
-                        return filesize.toFixed(2).toString() + 'B'
-                    } else if (filesize <= Math.pow(1024, 2)) {
-                        return (filesize / 1024).toFixed(2).toString() + 'KB'
-                    } else if (filesize <= Math.pow(1024, 3)) {
-                        return (filesize / Math.pow(1024, 2)).toFixed(2).toString() + 'MB'
-                    }
-                },
-                change_language(lan) {
-                    this.language = lan.setting
-                }
-            },
-            computed: {
-                is_homepage() {
-                    return location.pathname == '/'
-                },
-                noapi() {
-                    return this.apis.length == 0
-                },
-                total_page() {
-                    return Math.floor(this.hits / 20) + 1
-                },
-            },
-            mounted: function () {
-                this.language = this.languages[0].setting
-                this.apis_json = location.search
-                this.apis = JSON.parse(decodeURI(location.search.slice(1)));
-                this.api = this.apis[0]
-                if (location.hash.slice(1)) {
-                    this.keyword = decodeURI(location.hash.slice(1));
-                    this.search()
-                }
-            }
-        })
-        app.mount('#app')
-        Sentry.init({
-            dsn: "https://6f4cfc1a19be46efbdb2e412e307339e@o4504512193101824.ingest.sentry.io/4504512392265728",
-        });
-
-    </script>
+    <script src="./index.js"></script>
 
 </body>
 
