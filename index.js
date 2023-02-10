@@ -1,7 +1,7 @@
 //config：修改以下部分
 
 var sentry_dsn = "https://6f4cfc1a19be46efbdb2e412e307339e@o4504512193101824.ingest.sentry.io/4504512392265728"
-
+var prefix = { "ipfs": "https://ipfs-checker.1kbtool.com/", "ru": "https://rulite.1kbtool.com/", "libgen": "http://libgendown.1kbtool.com/" }
 
 // 以下部分请勿改动
 
@@ -23,24 +23,35 @@ function getCookie(name) {
     return null;
 }
 
+
 const app = Vue.createApp({
     data() {
         return {
+            show_notice: true,
             apis_json: '',
             inprogress: false,
             languages: {},
             current_language: "",
+            current_api: 0,
             language: {},
             api: {},
             apis: [],
             search_result: [],
             detail: {},
             keyword: '',
-            hits: 0,
-            page: 1,
+            enhanced: false,
+            displayimg: false
         }
     },
     methods: {
+        get_prefix(name) {
+            if (this.api['prefix'] && this.api['prefix'][name]) {
+                return this.api['prefix'][name]
+            } else {
+                return prefix[name]
+            }
+        },
+
         changeapi(api) {
             this.api = api
         },
@@ -49,56 +60,61 @@ const app = Vue.createApp({
             this.language = lan.setting
         },
 
-        search() {
-            this.page = 1;
-            this.inprogress = true;
-            axios.post(this.api.url + '/api/search/', {
+        handle_error(error) {
+            if (error.toJSON().status == 429) {
+                alert('请求过于频繁，请稍等一下再次尝试(429)')
+            }
+            else {
+                alert(`未知错误，请打开控制台查看(${error.message})`)
+            }
+        },
+
+        single_search(api,change) {
+            if(change){
+                api.page += change
+            }else{
+                api.page = 1;
+            }
+            
+            // api.inprogress = true;
+            axios.post(api.url + '/api/search/', {
                 keyword: this.keyword,
-                page: this.page,
-                sensitive: this.api.sensitive,
+                page: api.page,
+                sensitive: api.sensitive,
             }).then(response => {
                 if (response.data.errorn) {
                     alert(response.data.msg)
                 }
                 else {
-                    this.search_result = response.data.data
-                    if (response.data.data.length == 0) {
-                        alert('无相关结果')
-                    }
-                    this.hits = response.data.hits
+                    api.search_result = response.data.data
+                    api.search_result.forEach(result => {
+                        result.sizestring = this.filesizeToString(result.filesize)
+                    });
+                    api.hits = response.data.hits
+                    api.total_page = Math.floor(api.hits / 20) + 1
+                    api.noresult = (response.data.data.length == 0)
                 }
             }).catch(error => {
-                if (error.toJSON().status == 429) {
-                    alert('请求过于频繁，请稍等一下再次尝试(429)')
-                }
-                else {
-                    alert(`未知错误，请打开控制台查看(${error.message})`)
-                }
+                this.handle_error(error)
             })
-            this.inprogress = false;
+            // api.inprogress = false;
         },
 
-        change_page(change) {
-            this.page += change
-            axios.post(this.api.url + '/api/search/', {
-                keyword: this.keyword,
-                page: this.page,
-                sensitive: this.api.sensitive,
-            }).then(response => {
-                this.search_result = response.data.data
-            }).catch(error => {
-                if (error.toJSON().status == 429) {
-                    alert('请求过于频繁，请稍等一下再次尝试(429)')
-                }
-                else {
-                    alert(`未知错误，请打开控制台查看(${error.message})`)
-                }
-            })
+        search(){
+            this.show_notice = false
+            if(this.enhanced){
+                this.apis.forEach(api => {
+                    this.single_search(api)
+                });
+            }else{
+                this.single_search(this.apis[this.current_api])
+            }
         },
 
-        get_detail(item) {
-            if (this.api.detail) {
-                axios.post(this.api.url + '/api/detail/', {
+        get_detail(api,item) {
+            this.api = api
+            if (api.detail) {
+                axios.post(api.url + '/api/detail/', {
                     id: item.id,
                     source: item.source
                 }).then(response => {
@@ -110,12 +126,7 @@ const app = Vue.createApp({
                     }
 
                 }).catch(error => {
-                    if (error.toJSON().status == 429) {
-                        alert('请求过于频繁，请稍等一下再次尝试(429)')
-                    }
-                    else {
-                        alert(`未知错误，请打开控制台查看(${error.message})`)
-                    }
+                    this.handle_error(error)
                 })
             }
             else {
@@ -135,47 +146,44 @@ const app = Vue.createApp({
             } else if (filesize <= Math.pow(1024, 3)) {
                 return (filesize / Math.pow(1024, 2)).toFixed(2).toString() + 'MB'
             }
-        }
+        },
+    },
 
-    },
-    computed: {
-        is_homepage() {
-            return location.pathname == '/'
-        },
-        noapi() {
-            return this.apis.length == 0
-        },
-        total_page() {
-            return Math.floor(this.hits / 20) + 1
-        },
-    },
-    mounted: function () {
+    mounted() {
         axios.get('./i18n.json').then(response => {
             this.languages = response.data
-            this.apis_json = location.search
-            try {
-                this.apis = JSON.parse(decodeURI(location.search.slice(1)));
-                this.api = this.apis[0]
-            }
-            catch(err) {
-                this.apis = []
-            }
-            this.apis = JSON.parse(decodeURI(location.search.slice(1)));
-            this.api = this.apis[0]
             this.current_language = (navigator.language || navigator.browserLanguage).toLowerCase()
             try {
                 this.language = this.languages[this.current_language].setting
             }
-            catch(err) {
+            catch (err) {
                 this.current_language = 'en-us'
                 this.language = this.languages[this.current_language].setting
             }
-            if (location.hash.slice(1)) {
-                this.keyword = decodeURI(location.hash.slice(1));
-                this.search()
-            }
         })
-    }
+    },
+    created() {
+        this.apis_json = location.search
+        try {
+            this.apis = JSON.parse(decodeURI(location.search.slice(1)));
+            this.api = this.apis[0]
+        }
+        catch (err) {
+            this.apis = []
+        }
+        if (location.hash.slice(1)) {
+            this.keyword = decodeURI(location.hash.slice(1));
+            this.search()
+        }
+
+
+    },
+    components:{
+        "single-result":{
+            template:'#single-result-template',
+            props: ['api','language','displayimg'],
+        }
+    },
 })
 
 app.mount('#app')
@@ -183,3 +191,4 @@ app.mount('#app')
 Sentry.init({
     dsn: sentry_dsn,
 });
+

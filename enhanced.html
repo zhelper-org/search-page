@@ -117,31 +117,7 @@
         <p></p>
         <div v-for="api in apis" :key="api.id">
             <h5 v-if="api.search_result">{{api.name}}</h5>
-            <div class="mx-auto">
-                <ol class="list-group list-group-flush">
-                    <p v-if="api.noresult">无相关结果</p>
-                    <a v-for="result in api.search_result" @click="get_detail(api,result)"
-                        class=" list-group-item list-group-item-action " aria-current="true" style="text-align: left">
-                        <div class="ms-2 align-items-start" style="text-align: start;">
-                            <template v-if="result.info">
-                                <b class="card-title">{{result.info}}</b>
-                                {{language.source}}：{{result.source}}
-                            </template>
-                            <template v-if="result.title">
-                                <b class="card-title">{{result.title}}</b>
-                                {{language.author}}：{{result.author}}，{{language.publisher}}：{{result.publisher}}，{{language.year}}：{{result.year}}，
-                                {{language.source}}：{{result.source}}
-                                <br>
-                                <p class="fw-light">
-                                    <small>
-                                        {{language.filesize}}：{{filesizeToString(result.filesize)}}，ID：{{result.id}}，ISBN：{{result.isbn}}，{{language.extension}}：{{result.extension}}
-                                    </small>
-                                </p>
-                            </template>
-                        </div>
-                    </a>
-                </ol>
-            </div>
+            
         </div>
 
         <div v-if="is_homepage && !search_result.length" v-html="language.notice">
@@ -188,11 +164,11 @@
                                 <a v-if="detail.md5" class="btn btn-secondary"
                                     :href="'https://rapidupload.1kbtool.com/'+detail.md5 + '#' + detail.filesize + '#' + detail.title + '_' + detail.author + '_zhelper-search.' + detail.extension"
                                     target="_blank">
-                                    秒传
+                                    {{language.rapidupload}}
                                 </a>
                                 <a v-if="api.download" class="btn btn-secondary" :href="api.download+detail.id"
                                     target="_blank">
-                                    下载
+                                    {{language.download}}
                                 </a>
                             </template>
                             <template v-if="api.type == 'light'">
@@ -204,40 +180,6 @@
                                     data-bs-target="#downloadModal"
                                     data-bs-toggle="modal">{{language.download_links}}</button>
                             </template>
-                            <!-- 可能需要 eval 一下，解释两次
-                            <a v-for="methods in download_config"  :hidden="!methods.condition" :href="methods.url" target="_blank" class="btn btn-secondary">
-                                {{ methods.name }}
-                            </a> -->
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="modal fade" id="downloadModal" tabindex="-1" aria-labelledby="downloadModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered modal-lg ">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">{{language.download_links}}</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-
-                    </div>
-                    <div class="modal-body">
-                        {{language.info}}：{{detail.info}}，
-                        {{language.source}}：{{detail.source}}
-
-                        <p></p>
-                        <div class="modal-footer">
-                            <a v-for="download_link in detail.download_link" :href="download_link.url"
-                                class="btn btn-secondary" target="_blank">
-                                {{ download_link.name }}
-                            </a>
-                            <!-- 可能需要 eval 一下，解释两次
-                            <a v-for="methods in download_config"  :hidden="!methods.condition" :href="methods.url" target="_blank" class="btn btn-secondary">
-                                {{ methods.name }}
-                            </a> -->
-
                         </div>
                     </div>
                 </div>
