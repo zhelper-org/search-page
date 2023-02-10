@@ -139,19 +139,21 @@
         </div>
 
         <!-- 结果列表栏 -->
-        <div v-if="enhanced" v-for="api in apis" :key="api.id">
-            <h5 v-if="api.search_result">{{api.name}}</h5>
-            <single-result :api="api"  :language='language' :displayimg="displayimg" @single_search="single_search" @get_detail="get_detail"></single-result>
-        </div>
-        <div v-else>
-            <single-result :api="apis[current_api]" :language='language' :displayimg="displayimg" @single_search="single_search" @get_detail="get_detail"></single-result>
-        </div>
+
 
       
         <!-- 显示 notice 内容 -->
         <div v-if="show_notice" v-html="language.notice">
-
         </div>
+        <template v-else> 
+            <div v-if="enhanced" v-for="api in apis" :key="api.id">
+                <h5 v-if="api.search_result">{{api.name}}</h5>
+                <single-result :api="api"  :language='language' :displayimg="displayimg" @single_search="single_search" @get_detail="get_detail"></single-result>
+            </div>
+            <div v-else>
+                <single-result :api="apis[current_api]" :language='language' :displayimg="displayimg" @single_search="single_search" @get_detail="get_detail"></single-result>
+            </div>
+        </template>
         
         <div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-lg ">
