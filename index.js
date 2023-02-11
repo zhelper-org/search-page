@@ -176,6 +176,11 @@ const app = Vue.createApp({
             props: ['api','language','displayimg'],
         }
     },
+    options: {
+        compilerOptions: {
+          isCustomElement: (tag) => ['single-result'].includes(tag),
+        },
+      },
 })
 
 app.mount('#app')
