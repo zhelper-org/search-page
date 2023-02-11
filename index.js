@@ -80,7 +80,9 @@ const app = Vue.createApp({
                 else {
                     api.search_result = response.data.data
                     api.search_result.forEach(result => {
-                        result.sizestring = this.filesizeToString(result.filesize)
+                        if(!result.sizestring){
+                            result.sizestring = this.filesizeToString(result.filesize)
+                        }
                     });
                     api.hits = response.data.hits
                     api.total_page = Math.floor(api.hits / 20) + 1
