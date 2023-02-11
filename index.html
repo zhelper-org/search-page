@@ -67,8 +67,8 @@
                                 <li v-if="apis.length == 0" class="dropdown-item">
                                     {{language.noapi}}
                                 </li>
-                                <li v-for="api in apis" class="dropdown-item" :key="api.id" @click="changeapi(api)">
-                                    {{api.name}}
+                                <li v-for="single_api in apis" class="dropdown-item" :key="single_api.id" @click="api = single_api">
+                                    {{single_api.name}}
                                 </li>
                             </ul>
                         </li>
@@ -83,9 +83,9 @@
                                 </svg>
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="language_change">
-                                <li v-for="language in languages" class="dropdown-item"
-                                    @click="language = language.setting">
-                                    {{language.name}}
+                                <li v-for="single_language in languages" class="dropdown-item"
+                                    @click="language = single_language.setting">
+                                    {{single_language.name}}
                                 </li>
                             </ul>
 

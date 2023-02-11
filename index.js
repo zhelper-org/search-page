@@ -50,14 +50,6 @@ const app = Vue.createApp({
             }
         },
 
-        changeapi(api) {
-            this.api = api
-        },
-
-        change_language(lan) {
-            this.language = lan.setting
-        },
-
         handle_error(error) {
             if (error.toJSON().status == 429) {
                 alert('请求过于频繁，请稍等一下再次尝试(429)')
