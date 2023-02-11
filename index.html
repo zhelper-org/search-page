@@ -55,7 +55,6 @@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
                                 data-bs-toggle="dropdown" aria-expanded="false">
-                                <!-- {{language.api}} -->
                                 <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
                                     preserveAspectRatio="xMidYMid meet" viewBox="0 0 1024 1024">
                                     <path fill="currentColor"
@@ -85,7 +84,7 @@
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="language_change">
                                 <li v-for="language in languages" class="dropdown-item"
-                                    @click="change_language(language)">
+                                    @click="language = language.setting">
                                     {{language.name}}
                                 </li>
                             </ul>
@@ -138,7 +137,7 @@
             </div>
         </div>
 
-        <!-- 结果列表栏 -->
+
 
 
       
@@ -146,12 +145,13 @@
         <div v-if="show_notice" v-html="language.notice">
         </div>
         <template v-else> 
+            <!-- 结果列表栏 -->
             <div v-if="enhanced" v-for="api in apis" :key="api.id">
                 <h5 v-if="api.search_result">{{api.name}}</h5>
                 <single-result :api="api"  :language='language' :displayimg="displayimg" @single_search="single_search" @get_detail="get_detail"></single-result>
             </div>
             <div v-else>
-                <single-result :api="apis[current_api]" :language='language' :displayimg="displayimg" @single_search="single_search" @get_detail="get_detail"></single-result>
+                <single-result :api="api" :language='language' :displayimg="displayimg" @single_search="single_search" @get_detail="get_detail"></single-result>
             </div>
         </template>
         
@@ -175,8 +175,9 @@
                             {{language.filesize}}：{{detail.filesize}}
                         </template>
                         <template v-if="api.type == 'light'">
-                            {{language.info}}：{{detail.info}}，
-                            {{language.source}}：{{detail.source}}
+                            {{language.info}}：{{detail.info}}，{{language.source}}：{{detail.source}}
+                            <br>
+                            <template v-if="detail.doi">DOI: {{detail.doi}}</template>
                         </template>
 
 
@@ -224,6 +225,8 @@
 
     <template id="single-result-template">
         <div>
+            <p></p>
+            <div v-if="api.inprogress" class="spinner-border text-muted"></div>
             <div class="mx-auto">
                 <ol class="list-group list-group-flush">
                     <p v-if="api.noresult">{{language.noresult}}</p>

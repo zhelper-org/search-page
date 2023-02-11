@@ -29,10 +29,8 @@ const app = Vue.createApp({
         return {
             show_notice: true,
             apis_json: '',
-            inprogress: false,
             languages: {},
             current_language: "",
-            current_api: 0,
             language: {},
             api: {},
             apis: [],
@@ -70,6 +68,7 @@ const app = Vue.createApp({
         },
 
         single_search(api,change) {
+            api.inprogress = true
             if(change){
                 api.page += change
             }else{
@@ -82,6 +81,7 @@ const app = Vue.createApp({
                 page: api.page,
                 sensitive: api.sensitive,
             }).then(response => {
+                api.inprogress = false
                 if (response.data.errorn) {
                     alert(response.data.msg)
                 }
@@ -107,7 +107,7 @@ const app = Vue.createApp({
                     this.single_search(api)
                 });
             }else{
-                this.single_search(this.apis[this.current_api])
+                this.single_search(this.api)
             }
         },
 
