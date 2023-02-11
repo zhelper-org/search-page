@@ -160,6 +160,7 @@ const app = Vue.createApp({
             this.apis = JSON.parse(decodeURI(location.search.slice(1)));
             this.api = this.apis[0]
         }
+        
         catch (err) {
             this.apis = []
         }
