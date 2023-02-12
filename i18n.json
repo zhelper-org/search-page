@@ -2,6 +2,11 @@
     "zh-cn":{
         "name": "中文",
         "setting": {
+            "id":"ID",
+            "isbn":"ISBN",
+            "md5":"MD5",
+            "doi":"DOI",
+            "pages":"页数",
             "changeapi": "切换API",
             "home": "返回首页",
             "doc": "查看文档",
@@ -9,7 +14,7 @@
             "author": "作者",
             "publisher": "出版社",
             "year": "出版时间",
-            "filesize": "文件大小",
+            "sizestring": "文件大小",
             "extension": "文件类型",
             "source": "书源",
             "info": "信息",
@@ -31,6 +36,11 @@
     "en-us":{
         "name": "English",
         "setting": {
+            "id":"ID",
+            "isbn":"ISBN",
+            "md5":"MD5",
+            "doi":"DOI",
+            "pages":"Pages",
             "changeapi": "Change API",
             "home": "Home",
             "doc": "Docs",
@@ -38,7 +48,7 @@
             "author": "Author",
             "publisher": "Publisher",
             "year": "Year",
-            "filesize": "Filesize",
+            "sizestring": "Filesize",
             "extension": "Extension",
             "source": "Source",
             "info": "Infomation",

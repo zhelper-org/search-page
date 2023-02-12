@@ -95,6 +95,10 @@ const app = Vue.createApp({
         },
 
         search(){
+            if(Object.keys(this.api).length==0){
+                alert('API NOT SET')
+                return 0
+            }
             this.show_notice = false
             if(this.enhanced){
                 this.apis.forEach(api => {
@@ -116,7 +120,7 @@ const app = Vue.createApp({
                         alert(response.data.msg)
                     }
                     else {
-                        this.detail = response.data
+                        this.detail = Object.assign({}, item, response.data);
                     }
 
                 }).catch(error => {
@@ -126,6 +130,7 @@ const app = Vue.createApp({
             else {
                 this.detail = item;
             }
+
             var myModal = new bootstrap.Modal(document.getElementById('detailModal'), {})
             myModal.toggle()
         },
@@ -157,15 +162,22 @@ const app = Vue.createApp({
         })
     },
     created() {
-        this.apis_json = location.search
-        try {
-            this.apis = JSON.parse(decodeURI(location.search.slice(1)));
-            this.api = this.apis[0]
+        if((Object.keys(this.api).length>0)){
+            console.log(true)
         }
         
-        catch (err) {
-            this.apis = []
+        this.apis_json = location.search
+        let input = decodeURI(location.search.slice(1))
+        if(input) {
+            this.apis = JSON.parse(input);
+            this.api = this.apis[0]
+            this.apis.forEach(api => {
+                if(!api.display){
+                    api.display = {"h": ["title","info"],"p1": ["author","publisher","year","source"],"p2": ["sizestring","id","isbn","extension"],"detail":["md5","description"]}
+                }
+            });
         }
+        
         if (location.hash.slice(1)) {
             this.keyword = decodeURI(location.hash.slice(1));
             this.search()

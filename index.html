@@ -25,7 +25,8 @@
         type="application/javascript"></script>
     <script src="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/axios/0.26.0/axios.min.js"
         type="application/javascript"></script>
-        <script src="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/vue/3.2.31/vue.global.prod.min.js" type="application/javascript"></script>
+    <script src="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/vue/3.2.31/vue.global.prod.min.js"
+        type="application/javascript"></script>
     <script src="https://browser.sentry-cdn.com/7.30.0/bundle.min.js"
         integrity="sha384-VQwsnOdfvWE66XJzcf9t3H9l6Xm8zEihxxYmvp0iItrYIjy9HZXkagbY+3aA33kl"
         crossorigin="anonymous"></script>
@@ -66,7 +67,8 @@
                                 <li v-if="apis.length == 0" class="dropdown-item">
                                     {{language.noapi}}
                                 </li>
-                                <li v-for="single_api in apis" class="dropdown-item" :key="single_api.id" @click="api = single_api">
+                                <li v-for="single_api in apis" class="dropdown-item" :key="single_api.id"
+                                    @click="api = single_api">
                                     {{single_api.name}}
                                 </li>
                             </ul>
@@ -139,51 +141,71 @@
 
 
 
-      
+
         <!-- 显示 notice 内容 -->
         <div v-if="show_notice" v-html="language.notice">
         </div>
-        <template v-else> 
+    
+        <template v-if="!show_notice && Object.keys(api).length>0">
             <!-- 结果列表栏 -->
             <div v-if="enhanced" v-for="api in apis" :key="api.id">
                 <h5 v-if="api.search_result">{{api.name}}</h5>
-                <single-result :api="api"  :language='language' :displayimg="displayimg" @single_search="single_search" @get_detail="get_detail"></single-result>
+                <single-result :api="api" :language='language' :displayimg="displayimg" @single_search="single_search"
+                    @get_detail="get_detail"></single-result>
             </div>
             <div v-else>
-                <single-result :api="api" :language='language' :displayimg="displayimg" @single_search="single_search" @get_detail="get_detail"></single-result>
+                <single-result :api="api"  :language='language' :displayimg="displayimg" @single_search="single_search"
+                    @get_detail="get_detail"></single-result>
             </div>
-        </template>
-        
-        <div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered modal-lg ">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">{{language.detail}}</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 
-                    </div>
-                    <div class="modal-body">
-
-                        <template v-if=" api.type == 'full'">
-                            {{language.title}}：{{detail.title}}，{{language.source}}：{{detail.source}}
-                            <br>
-                            {{language.author}}：{{detail.author}}，{{language.publisher}}：{{detail.publisher}}，{{language.year}}：{{detail.year}}
-                            <br>
-                            MD5： {{detail.md5}}
-                            <br>
-                            {{language.filesize}}：{{detail.filesize}}
-                        </template>
-                        <template v-if="api.type == 'light'">
-                            {{language.info}}：{{detail.info}}，{{language.source}}：{{detail.source}}
-                            <br>
-                            <template v-if="detail.doi">DOI: {{detail.doi}}</template>
-                        </template>
-
-
-                        <p></p>
-                        <div class="modal-footer">
-                                <a v-if="detail.in_libgen" class="btn btn-secondary"
-                                    :href="get_prefix('libgen')+detail.md5" target="_blank">
+            <div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-lg ">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">{{language.detail}}</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    
+                        </div>
+                        <div class="modal-body" v-if="api">
+                                <div class="row">
+                                    <div class="col-md-2" v-if="displayimg && detail.cover">
+                                        <img :src="detail.cover" class="img-fluid rounded-start" alt="">
+                                    </div>
+                                    <div class="col-md-10">
+                                        <div class="ms-2 align-items-start" style="text-align: start;">
+                                            <b class="card-title">
+                                                <template v-for="field in api.display.h">
+                                                    {{detail[field]}}
+                                                </template>
+                                            </b>
+                                            <br>
+                                                <template v-for="field in api.display.p1">
+                                                    <!-- 新功能：使用 badge 美化 -->
+                                                    <!-- <span class="badge mx-1" >{{language[field]}}: {{detail[field]}}</span> -->
+                                                    {{language[field]}}: {{detail[field]}},
+                                                </template>
+                                            <br>
+                                            <template v-for="field in api.display.detail" v-if="api.display.detail">
+                                                <!-- 新功能：使用 badge 美化 -->
+                                                <!-- <span class="badge mx-1" >{{language[field]}}: {{detail[field]}}</span> -->
+                                                {{language[field]}}: {{detail[field]}},
+                                            </template>
+                                        <br>
+                                            <span class="fw-light">
+                                                <template v-for="field in api.display.p2">
+                                                    <!-- 新功能：使用 badge 美化 -->
+                                                    <!-- <span class="badge rounded-pill bg-primary mx-1">{{language[field]}}：{{detail[field]}}</span> -->
+                                                    {{language[field]}}：{{detail[field]}}, 
+                                                </template>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                        </div>
+                            <p></p>
+                            <div class="modal-footer">
+                                <a v-if="detail.in_libgen" class="btn btn-secondary" :href="get_prefix('libgen')+detail.md5"
+                                    target="_blank">
                                     Libgen
                                 </a>
                                 <a v-if="detail.ipfs_cid !== null && detail.ipfs_cid" class="btn btn-secondary"
@@ -192,7 +214,7 @@
                                     IPFS
                                 </a>
                                 <a v-if="detail.md5" class="btn btn-secondary"
-                                    :href="get_prefix('ru')+detail.md5 + '#' + detail.filesize + '#' + detail.title + '_' + detail.author + '_zhelper-search.' + detail.extension"
+                                    :href="get_prefix('ru')+detail.md5 + '#' + detail.filesize + '#' + detail.title + '_' + detail.author + '_' + detail.id + '_zhelper-search.' + detail.extension"
                                     target="_blank">
                                     {{language.rapidupload}}
                                 </a>
@@ -203,22 +225,28 @@
                                 <a :href="detail.url" v-if="detail.url" class="btn btn-secondary" target="_blank">
                                     {{ language.view_detail }}
                                 </a>
-                                <a  v-for="download_link in detail.download_link" :href="download_link.url"
+                                <a v-for="download_link in detail.download_link" :href="download_link.url"
                                     class="btn btn-primary" target="_blank">
                                     {{ download_link.name.slice(-4) }}
                                 </a>
-                         
+    
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+        </template >
         
-        </div>
+        
+      
+
+       
         <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
             <div class="col-md-4 d-flex text-center" style="margin-left: 4px">
                 <span class="mb-3 mb-md-0 text-muted  text-center">© 2023 zhelper team</span>
             </div>
         </footer>
+        </div>
+  
 
     </div>
 
@@ -233,39 +261,44 @@
                         class=" list-group-item list-group-item-action " aria-current="true" style="text-align: left">
                         <div class="row g-0">
                             <div class="col-md-2" v-if="displayimg && result.cover">
-                              <img :src="result.cover" class="img-fluid rounded-start" alt="">
+                                <img :src="result.cover" class="img-fluid rounded-start" alt="">
                             </div>
                             <div class="col-md-10">
                                 <div class="ms-2 align-items-start" style="text-align: start;">
-                                    <template v-if="result.info">
-                                        <b class="card-title">{{result.info}}</b>
-                                        {{language.source}}：{{result.source}}
-                                    </template>
-                                    <template v-if="result.title">
-                                        <b class="card-title">{{result.title}}</b>
-                                        {{language.author}}：{{result.author}}，{{language.publisher}}：{{result.publisher}}，{{language.year}}：{{result.year}}，
-                                        {{language.source}}：{{result.source}}
-                                        <br>
-                                        <p class="fw-light">
-                                            <small>
-                                                {{language.filesize}}：{{result.sizestring}}，ID：{{result.id}}，ISBN：{{result.isbn}}，{{language.extension}}：{{result.extension}}
-                                            </small>
-                                        </p>
-                                    </template>
+                                    <b class="card-title">
+                                        <template v-for="field in api.display.h">
+                                            {{result[field]}}
+                                        </template>
+                                    </b>
+                                    <br>
+                                        <template v-for="field in api.display.p1">
+                                            <!-- 新功能：使用 badge 美化 -->
+                                            <!-- <span class="badge mx-1" >{{language[field]}}: {{result[field]}}</span> -->
+                                            {{language[field]}}: {{result[field]}},
+                                        </template>
+                                    <br>
+                                    <span class="fw-light">
+                                        <template v-for="field in api.display.p2">
+                                            <!-- 新功能：使用 badge 美化 -->
+                                            <!-- <span class="badge rounded-pill bg-primary mx-1">{{language[field]}}：{{result[field]}}</span> -->
+                                            {{language[field]}}：{{result[field]}}, 
+                                        </template>
+                                    </span>
                                 </div>
                             </div>
-                          </div>
+                        </div>
                     </a>
                 </ol>
             </div>
-    
-    
+
+
             <!-- 页码 -->
             <nav v-if="api.search_result">
                 <ul class="pagination justify-content-center">
-    
+
                     <li v-if="api.page-1" class="page-item">
-                        <a class="page-link" href="#" @click="$emit('single_search',api,-1)">{{language.previous_page}}</a>
+                        <a class="page-link" href="#"
+                            @click="$emit('single_search',api,-1)">{{language.previous_page}}</a>
                     </li>
                     <li class="page-item"><a class="page-link" href="#">{{api.page}}</a></li>
                     <li v-if="api.page!= api.total_page" class="page-item">
@@ -274,9 +307,9 @@
                 </ul>
             </nav>
         </div>
-        
+
     </template>
-    
+
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7692266966719684"
         crossorigin="anonymous"></script>
     <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7692266966719684" data-ad-slot="3408254862"
