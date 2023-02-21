@@ -218,6 +218,11 @@
                                     target="_blank">
                                     {{language.rapidupload}}
                                 </a>
+                                <a v-if="detail.md5" class="btn btn-secondary"
+                                :href="get_prefix('rulite')+detail.md5 + '#' + detail.filesize + '#' + detail.title + '_' + detail.author + '_' + detail.id + '_zhelper-search.' + detail.extension"
+                                target="_blank">
+                                {{language.rapidupload}} Lite
+                                </a>
                                 <a v-if="api.download" class="btn btn-secondary" :href="api.download+detail.id"
                                     target="_blank">
                                     {{language.download}}

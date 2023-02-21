@@ -1,7 +1,7 @@
 //config：修改以下部分
 
 var sentry_dsn = "https://6f4cfc1a19be46efbdb2e412e307339e@o4504512193101824.ingest.sentry.io/4504512392265728"
-var prefix = { "ipfs": "https://ipfs-checker.1kbtool.com/", "ru": "https://rulite.1kbtool.com/", "libgen": "http://libgendown.1kbtool.com/" }
+var prefix = { "ipfs": "https://ipfs-checker.1kbtool.com/", "rulite": "https://rulite.1kbtool.com/", "ru": "https://rapidupload.1kbtool.com/", "libgen": "http://libgendown.1kbtool.com/" }
 
 // 以下部分请勿改动
 
