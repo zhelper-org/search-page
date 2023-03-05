@@ -38,7 +38,7 @@ const app = Vue.createApp({
             detail: {},
             keyword: '',
             enhanced: false,
-            displayimg: true
+            displayimg: false
         }
     },
     methods: {
