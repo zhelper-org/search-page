@@ -66,5 +66,39 @@
             "notice": "<h1>Notice</h1><ul><li>This Website dont storage API, <b>You need provide API by yourself. TIPS: <a href='https://www.bing.com/search?q=zhelper+search+%E9%85%8D%E7%BD%AE'>search for api in bing</a></b></li><li>When you Click Search, We will make requests to API endpoint, be patient</li><li>This website is opensource</li><li>You can change API by click upper left corner</li></ul>",
             "noresult":"No Result"
         }
+    },
+        "es":{
+        "name": "Español",
+        "setting": {
+            "id":"ID",
+            "isbn":"ISBN",
+            "md5":"MD5",
+            "doi":"DOI",
+            "pages":"Paginas",
+            "changeapi": "Cambiar API",
+            "home": "Home",
+            "doc": "Documentos",
+            "title": "Titulo",
+            "author": "Autor",
+            "publisher": "Publicador",
+            "year": "Año",
+            "sizestring": "Tamaño",
+            "extension": "Extension",
+            "source": "Fuente",
+            "info": "Informacion",
+            "noapi": "No hay API",
+            "apinotset": "No hay API designado",
+            "view_detail": "Ver detalles",
+            "download":"Descargar",
+            "download_links": "Links de descarga",
+            "rapidupload":"秒传",
+            "detail": "Detalles",
+            "next_page": "Siguinte pagina",
+            "previous_page": "Pagina anterior",
+            "search": "Buescar",
+            "description":"Descripcion",
+            "notice": "<h1>Tener en cuenta</h1><ul><li>Esta pagina no contiene ningun API, <b>necesitas proveer API usted. Tips: <a href='https://www.bing.com/search?q=zhelper+search+%E9%85%8D%E7%BD%AE'>Buscar API por Bing</a></b></li><li>Cuando haces click en Buscar, haremos solicitudes al API, ten pasiencia</li><li>Los resultados dependen del API que has ingresado. No uses API desconocidos. No somos responsables de eso. </li><li>Esta pagina esta en opensource</li><li>Podes cambiar tu API haciendo click a la izquierda superior</li></ul>",
+            "noresult":"No hay resultado"
+        }
     }
 }
